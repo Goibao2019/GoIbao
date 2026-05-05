@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>GOIBAO - 全球高端精品电商</title>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+html,body{min-height:100vh;background:linear-gradient(160deg,#02040D,#0A0E22,#121A3C);color:#fff;overflow-x:hidden}
+#app{max-width:480px;margin:0 auto;position:relative}
+
+/* 页面结构 */
+.page{display:none;min-height:100vh;padding:70px 0 120px}
+.page.active{display:block}
+.container{padding:0 28px}
+
+/* 顶级玻璃质感 */
+.glass{background:rgba(255,255,255,0.08);backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,0.15);border-radius:26px;box-shadow:0 12px 48px rgba(0,0,0,0.4)}
+.glass-hover{transition:all 0.3s ease}
+.glass-hover:hover{transform:translateY(-3px);background:rgba(255,255,255,0.12)}
+
+/* 顶级按钮 */
+.btn{width:100%;padding:20px;border:none;border-radius:22px;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all 0.3s}
+.btn-primary{background:linear-gradient(90deg,#1677FF,#4096FF);color:#fff}
+.btn-gold{background:linear-gradient(90deg,#FFD700,#FFE155,#FFB800);color:#000;font-weight:700}
+.btn-dark{background:rgba(255,255,255,0.06);color:#fff}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.18);color:#fff}
+
+/* 输入框 */
+.input{width:100%;padding:20px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);border-radius:20px;color:#fff;font-size:16px}
+.input:focus{border-color:#FFD700;outline:none}
+
+/* 导航栏 */
+.nav{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:70px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(2,4,13,0.97);backdrop-filter:blur(32px);border-bottom:1px solid rgba(255,255,255,0.08);z-index:999}
+
+/* 高端LOGO（真正购物平台级别） */
+.logo{width:200px;height:48px;background:url("https://picsum.photos/seed/GOIBAO-BRAND/800/200") no-repeat center;background-size:contain}
+
+/* 底部导航 */
+.tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:110px;padding:0 24px 50px;display:flex;align-items:center;justify-content:space-around;background:rgba(2,4,13,0.97);backdrop-filter:blur(32px);border-top:1px solid rgba(255,255,255,0.06);z-index:999}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,0.45);cursor:pointer}
+.tab-item.active{color:#FFD700}
+.tab-item i{font-size:26px}
+
+/* 商品布局 */
+.goods-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 24px;margin-top:24px}
+.goods-item{background:rgba(255,255,255,0.05);border-radius:26px;overflow:hidden;transition:all 0.3s}
+.goods-img{width:100%;aspect-ratio:1;object-fit:cover}
+.goods-info{padding:18px}
+
+/* 轮播 */
+.swiper{width:calc(100% - 48px);height:200px;border-radius:26px;overflow:hidden;margin:24px}
+.swiper-wrapper{display:flex;width:300%;height:100%;transition:transform 0.4s ease}
+
+/* 协议 */
+.agreement{font-size:13px;opacity:0.8;text-align:center;margin-top:12px}
+.agreement a{color:#FFD700;text-decoration:none}
+
+/* 工具类 */
+.mt-16{margin-top:16px}.mt-24{margin-top:24px}.mt-32{margin-top:32px}
+.text-center{text-align:center}.font-bold{font-weight:700}
+.color-gold{color:#FFD700}
+.flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}
+</style>
+</head>
+<body>
+
+<div id="app">
+<!-- 导航 -->
+<div class="nav">
+  <div class="logo"></div>
+  <div style="display:flex;gap:12px">
+    <button class="btn btn-sm btn-dark"><i class="fa-solid fa-globe"></i></button>
+    <button class="btn btn-sm btn-dark" onclick="switchTo('me')"><i class="fa-solid fa-user"></i></button>
+  </div>
+</div>
+
+<!-- 登录 -->
+<div class="page active" id="login-page">
+  <div class="container text-center mt-80">
+    <div class="logo" style="margin:0 auto"></div>
+    <h2 style="margin-top:24px">GOIBAO</h2>
+    <p style="opacity:.6;margin-top:8px">全球高端精品电商</p>
+  </div>
+  <div class="container mt-32">
+    <input class="input" id="account" placeholder="请输入账号">
+    <input class="input mt-16" type="password" id="password" placeholder="请输入密码">
+    <div class="mt-16 flex items-center gap-8">
+      <input type="checkbox" id="agree">
+      <span>我已阅读并同意</span>
+      <a href="javascript:showAgreement()" class="color-gold">《用户协议》《隐私政策》</a>
+    </div>
+    <button class="btn btn-primary mt-24" onclick="login()">登录</button>
+    <button class="btn btn-dark mt-16" onclick="switchTo('register')">注册账号</button>
+  </div>
+</div>
+
+<!-- 注册 -->
+<div class="page" id="register-page">
+  <div class="container text-center mt-80">
+    <div class="logo" style="margin:0 auto"></div>
+    <h2>注册</h2>
+  </div>
+  <div class="container mt-24">
+    <input class="input" id="reg_account" placeholder="设置账号">
+    <input class="input mt-16" type="password" id="reg_pwd" placeholder="登录密码">
+    <input class="input mt-16" maxlength="6" id="reg_paypwd" placeholder="6位支付密码">
+    <div class="mt-16 flex items-center gap-8">
+      <input type="checkbox" id="reg_agree">
+      <span>同意用户协议与隐私政策</span>
+    </div>
+    <button class="btn btn-primary mt-24" onclick="register()">完成注册</button>
+    <button class="btn btn-dark mt-16" onclick="switchTo('login')">返回登录</button>
+  </div>
+</div>
+
+<!-- 首页 -->
+<div class="page" id="home-page">
+  <div class="container mt-24">
+    <input class="input" placeholder="搜索全球高端商品">
+  </div>
+  <div class="swiper glass">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="https://picsum.photos/seed/goibao-banner1/900/450"></div>
+      <div class="swiper-slide"><img src="https://picsum.photos/seed/goibao-banner2/900/450"></div>
+      <div class="swiper-slide"><img src="https://picsum.photos/seed/goibao-banner3/900/450"></div>
+    </div>
+  </div>
+  <div class="goods-grid" id="goods-list"></div>
+</div>
+
+<!-- 底部导航 -->
+<div class="tabbar">
+  <div class="tab-item active" onclick="switchTo('home')"><i class="fa-solid fa-home"></i><span>首页</span></div>
+  <div class="tab-item" onclick="switchTo('cart')"><i class="fa-solid fa-cart-shopping"></i><span>购物车</span></div>
+  <div class="tab-item" onclick="switchTo('order')"><i class="fa-solid fa-box"></i><span>订单</span></div>
+  <div class="tab-item" onclick="switchTo('me')"><i class="fa-solid fa-user"></i><span>我的</span></div>
+</div>
+
+<script>
+// 全局对象
+const user = {
+  login: false,
+  account: "test",
+  password: "123456",
+  paypwd: "112233",
+  balance: 8888,
+  nickname: "高端用户",
+  avatar: "https://picsum.photos/seed/avatar/100/100"
+};
+
+// DOM工具
+const $ = id => document.getElementById(id);
+const toast = msg => alert(msg);
+
+// 切换页面
+function switchTo(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  $(page + "-page").classList.add("active");
+  renderTab(page);
+}
+
+// 底部导航高亮
+function renderTab(page) {
+  const map = { home: 0, cart: 1, order: 2, me: 3 };
+  document.querySelectorAll(".tab-item").forEach((item, idx) => {
+    item.classList.remove("active");
+    if (idx === map[page]) item.classList.add("active");
+  });
+}
+
+// 协议弹窗
+function showAgreement() {
+  alert(`《GOIBAO用户协议》《隐私政策》
+1. 用户信息严格保密
+2. 平台虚拟货币仅用于购物
+3. VIP会员享受对应等级折扣
+4. 禁止违规操作与套利`);
+}
+
+// 登录
+function login() {
+  const account = $("account").value;
+  const password = $("password").value;
+  if (!account || !password) return toast("请输入账号密码");
+  if (!$("agree").checked) return toast("请同意用户协议");
+  if (account === user.account && password === user.password) {
+    toast("登录成功");
+    switchTo("home");
+    loadGoods();
+  } else {
+    toast("账号或密码错误");
+  }
+}
+
+// 注册
+function register() {
+  const account = $("reg_account").value;
+  const pwd = $("reg_pwd").value;
+  const paypwd = $("reg_paypwd").value;
+  if (!account || !pwd || paypwd.length !== 6) return toast("信息不完整");
+  if (!$("reg_agree").checked) return toast("请同意协议");
+  toast("注册成功，请登录");
+  switchTo("login");
+}
+
+// 商品数据（高端商品库）
+const goods = [
+  { id: 1, name: "GOIBAO 旗舰手机", price: 5999, pic: "https://picsum.photos/seed/phone/600/600" },
+  { id: 2, name: "GOIBAO 智能手表", price: 2399, pic: "https://picsum.photos/seed/watch/600/600" },
+  { id: 3, name: "GOIBAO 无线耳机", price: 1299, pic: "https://picsum.photos/seed/earphone/600/600" },
+  { id: 4, name: "GOIBAO 轻奢包包", price: 3899, pic: "https://picsum.photos/seed/bag/600/600" },
+  { id: 5, name: "GOIBAO 潮流鞋履", price: 1699, pic: "https://picsum.photos/seed/shoe/600/600" },
+  { id: 6, name: "GOIBAO 专业相机", price: 8999, pic: "https://picsum.photos/seed/camera/600/600" },
+  { id: 7, name: "GOIBAO 轻薄本", price: 6899, pic: "https://picsum.photos/seed/laptop/600/600" },
+  { id: 8, name: "GOIBAO 高端香水", price: 1599, pic: "https://picsum.photos/seed/perfume/600/600" }
+];
+
+// 加载商品
+function loadGoods() {
+  let html = "";
+  goods.forEach(g => {
+    html += `
+    <div class="goods-item glass-hover">
+      <img src="${g.pic}" class="goods-img">
+      <div class="goods-info">
+        <div style="font-weight:600">${g.name}</div>
+        <div style="color:#FFD700;margin-top:8px;font-size:18px">${g.price} GB</div>
+      </div>
+    </div>`;
+  });
+  $("goods-list").innerHTML = html;
+}
+
+// 自动轮播
+window.onload = () => {
+  switchTo("login");
+  setInterval(() => {
+    const wrap = document.querySelector(".swiper-wrapper");
+    const current = wrap.style.transform || "translateX(0)";
+    const idx = current === "translateX(0)" ? 1 : current === "translateX(-100%)" ? 2 : 0;
+    wrap.style.transform = `translateX(-${idx * 100}%)`;
+  }, 4000);
+};
+</script>
+</body>
+</html>
