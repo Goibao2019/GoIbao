@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GOIBAO - 全球高端精品电商</title>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(160deg,#02040D,#0A0E22,#121A3C);color:#fff;min-height:100vh}
+    #app{max-width:480px;margin:0 auto;padding-bottom:140px}
+    .logo{width:200px;height:48px;background:url('https://picsum.photos/seed/GOIBAO-BRAND/800/200') no-repeat center;background-size:contain;margin:20px auto}
+    .input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);color:#fff}
+    .btn{padding:12px 16px;border-radius:12px;border:none;background:linear-gradient(90deg,#1677FF,#4096FF);color:#fff;cursor:pointer}
+    .goods-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px}
+    .goods-item{background:rgba(255,255,255,0.03);border-radius:14px;overflow:hidden}
+    .goods-img{width:100%;height:120px;object-fit:cover}
+    .goods-info{padding:10px}
+    .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:90px;padding:12px 20px;background:linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.5));display:flex;align-items:center;justify-content:space-around;border-top-left-radius:14px;border-top-right-radius:14px}
+    .admin-panel{position:fixed;right:12px;top:80px;background:rgba(0,0,0,0.5);padding:12px;border-radius:12px}
+    .small{font-size:12px;opacity:0.8}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="logo"></div>
+    <div style="padding:0 18px">
+      <div style="display:flex;gap:8px">
+        <input id="search" class="input" placeholder="搜索商品...">
+        <button id="refreshBtn" class="btn">刷新</button>
+      </div>
+      <div id="goods" class="goods-grid"></div>
+    </div>
+
+    <div class="tabbar">
+      <div>首页</div>
+      <div>购物车</div>
+      <div>订单</div>
+      <div>我的</div>
+    </div>
+
+    <div class="admin-panel">
+      <div class="small">Admin Key</div>
+      <input id="adminKey" class="input" style="width:200px;margin-top:6px" placeholder="输入管理密钥">
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button id="openAdmin" class="btn">打开管理</button>
+        <button id="broadcast" class="btn" style="background:#FFD700;color:#000">广播</button>
+      </div>
+      <div id="adminArea" class="hidden" style="margin-top:8px">
+        <div style="margin-bottom:6px"><input id="gName" class="input" placeholder="商品名称"></div>
+        <div style="margin-bottom:6px"><input id="gPrice" class="input" placeholder="价格（数字）"></div>
+        <div style="margin-bottom:6px"><input id="gPic" class="input" placeholder="图片URL（可选）"></div>
+        <div style="display:flex;gap:8px"><button id="addGoods" class="btn">新增</button><button id="clearAdmin" class="btn" style="background:#333">关闭</button></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
